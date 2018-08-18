@@ -12,7 +12,10 @@ namespace ConsoleApp1
     class Restaurant
     {
         
-            
+            public Restaurant ()
+	{
+
+	}
        
     }
 }
