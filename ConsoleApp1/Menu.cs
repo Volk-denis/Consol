@@ -7,25 +7,12 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    class Menu : IEnumerator<int>
+    class Menu 
     {
-        public int Current => throw new NotImplementedException();
-
-        object IEnumerator.Current => Current;
-
-        public void Dispose()
+        public void Read(Object sender, Eda e)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"обект {sender.GetType()}, патаметры а = {e.a},  b = {e.b}");
         }
-
-        public bool MoveNext()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Reset()
-        {
-            throw new NotImplementedException();
-        }
+     
     }
 }

@@ -8,32 +8,17 @@ using System.Threading.Tasks;
 namespace ConsoleApp1
 {
 
-    class Eda : IEnumerable<int>
+    class Eda : EventArgs
     {
-        private readonly int count; 
-        public Eda(int count)
-        {
-            this.count = count;
-        }
-        public IEnumerator<int> GetEnumerator()
-        {
-            int a = 0;
-            for(int q = 0; a < count; q++)
-            {
-                if (a == 0)
-                {
-                    
-                    yield return a;
-                }
-                a +=200;
-                yield return a;
-            }
-        }
+        public int a {get;  set;}
+        public String b {get;  set;}
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
+        public Eda(int a, String b){
+            this.a = a;
+            this.b = b;
+            
         }
+        
     }
 
 

@@ -6,16 +6,13 @@ using System.Threading;
 
 namespace ConsoleApp1
 {
-
-    
-    
+           
     class Restaurant
     {
-        
-            public Restaurant ()
-	{
 
-	}
-       
+        public void Read(Object sender, Eda e){
+            Console.WriteLine($"обект {sender.GetType()}, патаметры а = {e.a},  b = {e.b}");
+        }
+  
     }
 }
