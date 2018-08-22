@@ -26,18 +26,9 @@ namespace ConsoleApp1
                 if (task.IsCanceled) 
                     MessageBox.Show("Поток завершен");
             }
-            //catch (Exception e)
-            //{
-            //    
-                
-            //}
-
-            //Thread.Sleep(2000);
-            //cts.Cancel();
-            //Console.Read();
-
 
             Console.WriteLine(task.IsCanceled);
+  
         }
 
         public void Qw(CancellationToken ct)
