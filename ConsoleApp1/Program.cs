@@ -8,54 +8,45 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace ConsoleApp1{
-
-    
-
     class Program
     {
-        
-        static CancellationTokenSource cts = new CancellationTokenSource();
-        public static void Main(){
-            
+        public static void Main()
+        {
+            //    Суть такая: стартует маин, доходит до создания еще одного потока. Создает его и стартует. 
+            //    Продолжает работу и доходит до Threa.sleep. Ждет 2 секунды и вызывает сброс маркера.
+            //    Генерируется исключение OperationCanceledException во втором потоке и поток останавливается.
 
-            var t = Task.Run(() => Add(cts.Token), cts.Token);
+            //    Если в методе в котором создавался второй поток отсутствуют await/async,
+            //    первый продолжает работать, маркеры isCanceled не срабатывают из-за ошибки во втором потоке и маин завершает работу.
+            //    Если мы возобновим работу второго потока после исключения, он тоже завершится, но таск будет в isCanceled = false.
 
-            Thread.Sleep(1000);
-            cts.Cancel();
-            Console.WriteLine(t.IsCanceled);
-            Console.WriteLine(t.IsFaulted);
-            Console.WriteLine(cts.Token.IsCancellationRequested);
-            
-            
-            
-            //Console.WriteLine(t.Result);
+            //    Для этого метод в которов создаем таск вписываем async, а таск await. Таким образом, маин после проброса исключения
+            //    во втором потоке приостанавливает свою работу, ждет пока исключение обработается, т.е во время проброса исключения вся программа "стоит",
+            //    а после обработки возобновляет своюработую Т.о коректно выставляюся маркеры, а isCanceled = true.
+            //    
 
-            Console.ReadKey();
+            var meenu = new Menu();
+            meenu.Add();
+            Console.WriteLine("Продолжаем работу");
+            Thread.Sleep(2000);
+            meenu.cts.Cancel();
+            Console.ReadLine();
         }
 
-        public static void Add(CancellationToken t)
+        public static void Add(CancellationToken ct)
         {
-            int a = 0;
-            try
+            for(int ca = 0; ca < 123; ca++)
             {
-                 while (!t.IsCancellationRequested)
-                    {
-                                
-                                     Console.WriteLine(a++);
-                                     Thread.Sleep(1000);
-                                     t.ThrowIfCancellationRequested();
-                              
-                    }
-                t.ThrowIfCancellationRequested();
+
+                if(ct.IsCancellationRequested)
+                    ct.ThrowIfCancellationRequested();
+                
+                Thread.Sleep(1000);
+                //if (ca == 2) throw new Exception();
+                Console.WriteLine(ca);
             }
-            catch(OperationCanceledException e)
-            {
-                Console.WriteLine("поток завершен!!!");
-            }
-            finally
-            {
-                cts.Dispose();
-            }
+            
+
             
            
         }
