@@ -35,10 +35,11 @@ namespace ConsoleApp1
         {
             for(int a = 0; a < 234; a++)
             {
+                Console.WriteLine(a);
                 ct.ThrowIfCancellationRequested();
                 //if (a == 4) throw new Exception();
                 Thread.Sleep(100);
-                Console.WriteLine(a);
+                
             }
         }
      
