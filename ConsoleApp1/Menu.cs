@@ -11,36 +11,42 @@ namespace ConsoleApp1
 {
     class Menu 
     {
-        public CancellationTokenSource cts = new CancellationTokenSource();
+        
+        CancellationTokenSource cts = new CancellationTokenSource();
         public async void Add()
         {
-            Task task = null;
-            var t = cts.Token;
+            
+            Task task = new Task(() => Qw());
             try
             {
-                 task = Task.Run(() => Qw(t),t);
-                 await task;
+                task.Start();
+                await task;
+                  
             }
             catch (OperationCanceledException)
             {
                 if (task.IsCanceled) 
                     MessageBox.Show("Поток завершен");
             }
-
+            catch (Exception)
+            {
+                Console.WriteLine("Обработка ошибки");
+            }
+            Console.WriteLine(Thread.CurrentThread.Name);
+            Console.WriteLine(task.IsFaulted);
             Console.WriteLine(task.IsCanceled);
-  
+            Console.WriteLine(task.IsCompleted);
+
         }
 
-        public void Qw(CancellationToken ct)
+        public void Qw()
         {
-            for(int a = 0; a < 234; a++)
-            {
-                Console.WriteLine(a);
-                ct.ThrowIfCancellationRequested();
-                //if (a == 4) throw new Exception();
-                Thread.Sleep(100);
-                
-            }
+            
+        }
+
+        public void Cancel()
+        {
+            cts.Cancel();
         }
      
     }

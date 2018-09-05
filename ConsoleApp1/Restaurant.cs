@@ -12,12 +12,15 @@ namespace ConsoleApp1
            
     class Restaurant
     {
-
-        public void Add()
+        public Restaurant(int ab)
         {
-            Task<string> f = new WebClient().DownloadStringTaskAsync("http://habrahabr.ru/");
 
         }
+        public Restaurant()
+        {
+
+        }
+        public int _a { get; set; }
   
     }
 }
