@@ -8,8 +8,19 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Net;
 using System.IO;
+using System.Numerics;
 
 namespace ConsoleApp1{
+
+    enum Figures { Romb, Rect, Triangle, Circle }
+    struct Fdata
+    {
+        public int x0, y0;
+        public int color;
+        public Figures type;
+    }
+
+
     class Program
     {
 
@@ -17,6 +28,8 @@ namespace ConsoleApp1{
         
         public static void Main()
         {
+            Fdata fdata = new Fdata() { x0 = 4, y0 = 3, color = 1234, type = Figures.Romb };
+            Console.WriteLine(Area(fdata)?? 0);
             //поток доходит до асинк метода. Далее создается фоновой поток, который начинает работать
             //Основной далее выполняет действия до ключевого слова авэйт и выходит из метода ("ждет выполнеие таски"(не совсем так)). 
             //Как только фоновой поток закончит свою работу, основному потоку вернется управление в методе в котором создалась таска и
@@ -51,10 +64,17 @@ namespace ConsoleApp1{
             //Console.WriteLine("Далее продолжаем");
             //menu.Cancel();
 
-            MyStruct _struct = new MyStruct(1,2);
-            Console.WriteLine(_struct.A);
+            //MyStruct _struct = new MyStruct(1,2);
+            //Console.WriteLine(_struct.A);
+            //checked
+            //{
+            
+           
+                //Console.WriteLine( Factorial(6));
+            //}
+            
 
-            Console.ReadLine();
+            Console.ReadKey();
 
            
         }
@@ -74,6 +94,31 @@ namespace ConsoleApp1{
             Restaurant restaurant = new Restaurant() { _a = 40 };
             r = restaurant;
             
+        }
+        public static void A(int a, params int[] f)
+        {
+            Console.WriteLine(f.GetHashCode());
+        }
+        public static long Factorial(long s)
+        {
+            return s < 1 ? 1 : s * Factorial(--s);
+        }
+        public static double? Area(Fdata fd)
+        {
+            double res;
+            switch (fd.type)
+            {
+                case Figures.Romb :
+                    res = fd.x0 * fd.y0;
+                    return res;
+                case Figures.Circle:
+                    res = fd.x0 - fd.y0;
+                    return res;
+                default:
+                    return null;
+
+
+            }
         }
         
        
